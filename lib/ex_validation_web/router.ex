@@ -9,7 +9,8 @@ defmodule ExValidationWeb.Router do
     pipe_through :api
 
     resources "/user", UserController, only: [:index, :create, :show]
-    resources "/todo", TodoController, only: [:index, :create, :show]
+    resources "/user/:user_id/todo", TodoController, only: [:index, :show]
+    resources "/todo", TodoController, only: [:create]
   end
 
   # Enables LiveDashboard only for development

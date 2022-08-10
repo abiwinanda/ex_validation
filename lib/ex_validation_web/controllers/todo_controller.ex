@@ -15,13 +15,13 @@ defmodule ExValidationWeb.TodoController do
     with {:ok, %Todo{} = todo} <- Activities.create_todo(todo_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", Routes.todo_path(conn, :show, todo))
+      |> put_resp_header("location", Routes.todo_path(conn, :show, todo_params["user_id"], todo))
       |> render("show.json", todo: todo)
     end
   end
 
   def show(conn, %{"id" => todo_id, "user_id" => user_id}) do
-    with {:ok, todo} = Activities.get_user_todo(user_id, todo_id) do
+    with {:ok, todo} <- Activities.get_user_todo(user_id, todo_id) do
       render(conn, "show.json", todo: todo)
     end
   end
