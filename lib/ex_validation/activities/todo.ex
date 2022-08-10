@@ -19,5 +19,16 @@ defmodule ExValidation.Activities.Todo do
     |> cast(attrs, [:title, :description, :deadline, :user_id])
     |> validate_required([:title, :user_id])
     |> foreign_key_constraint(:user_id)
+    |> validate_deadline()
+  end
+
+  defp validate_deadline(changeset) do
+    validate_change(changeset, :deadline, fn _field, value ->
+      case NaiveDateTime.compare(value, NaiveDateTime.utc_now()) do
+        :gt -> []
+        :eq -> []
+        _ -> [{:deadline, "deadline must be equal or greater than current time"}]
+      end
+    end)
   end
 end
