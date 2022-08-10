@@ -16,7 +16,8 @@ defmodule ExValidation.Activities.Todo do
   @doc false
   def changeset(todo, attrs) do
     todo
-    |> cast(attrs, [:title, :description, :deadline])
-    |> validate_required([:title, :description])
+    |> cast(attrs, [:title, :description, :deadline, :user_id])
+    |> validate_required([:title, :user_id])
+    |> foreign_key_constraint(:user_id)
   end
 end
