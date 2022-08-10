@@ -14,7 +14,7 @@ defmodule ExValidationWeb.ErrorView do
     %{errors: %{detail: Phoenix.Controller.status_message_from_template(template)}}
   end
 
-  def render("invalid_input.json", %{messages: messages}) do
-    %{errors: messages}
+  def render("invalid_input.json", %{error: error}) do
+    %{errors: error}
   end
 end

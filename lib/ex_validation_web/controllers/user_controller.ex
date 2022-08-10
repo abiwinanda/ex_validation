@@ -24,7 +24,7 @@ defmodule ExValidationWeb.UserController do
     conn
     |> put_status(:unprocessable_entity)
     |> put_view(ExValidationWeb.ErrorView)
-    |> render("invalid_input.json", messages: ["name should be a string"])
+    |> render("invalid_input.json", error: %{name: ["name should be a string"]})
   end
 
   def show(conn, %{"id" => id}) do
