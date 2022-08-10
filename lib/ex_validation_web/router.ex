@@ -7,6 +7,8 @@ defmodule ExValidationWeb.Router do
 
   scope "/api", ExValidationWeb do
     pipe_through :api
+
+    resources "/user", UserController, only: [:index, :create, :show]
   end
 
   # Enables LiveDashboard only for development
