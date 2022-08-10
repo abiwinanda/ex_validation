@@ -3,6 +3,7 @@ defmodule ExValidation.Repo.Migrations.CreateTodos do
 
   def change do
     create table(:todos) do
+      add :user_id, references(:users)
       add :title, :string
       add :description, :text
       add :deadline, :naive_datetime

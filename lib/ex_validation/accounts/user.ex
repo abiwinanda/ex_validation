@@ -5,7 +5,7 @@ defmodule ExValidation.Accounts.User do
   schema "users" do
     field :name, :string
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   @doc false
