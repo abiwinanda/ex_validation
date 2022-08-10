@@ -11,8 +11,8 @@ defmodule ExValidationWeb.UserController do
     render(conn, "index.json", users: users)
   end
 
-  def create(conn, %{"user" => user_params}) do
-    with {:ok, %User{} = user} <- Accounts.create_user(user_params) do
+  def create(conn, %{"name" => name}) when is_binary(name) do
+    with {:ok, %User{} = user} <- Accounts.create_user(%{name: name}) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.user_path(conn, :show, user))
@@ -20,24 +20,15 @@ defmodule ExValidationWeb.UserController do
     end
   end
 
+  def create(conn, _) do
+    conn
+    |> put_status(:unprocessable_entity)
+    |> put_view(ExValidationWeb.ErrorView)
+    |> render("invalid_input.json", messages: ["name should be a string"])
+  end
+
   def show(conn, %{"id" => id}) do
     user = Accounts.get_user!(id)
     render(conn, "show.json", user: user)
-  end
-
-  def update(conn, %{"id" => id, "user" => user_params}) do
-    user = Accounts.get_user!(id)
-
-    with {:ok, %User{} = user} <- Accounts.update_user(user, user_params) do
-      render(conn, "show.json", user: user)
-    end
-  end
-
-  def delete(conn, %{"id" => id}) do
-    user = Accounts.get_user!(id)
-
-    with {:ok, %User{}} <- Accounts.delete_user(user) do
-      send_resp(conn, :no_content, "")
-    end
   end
 end
