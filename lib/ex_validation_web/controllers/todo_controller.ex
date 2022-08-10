@@ -20,24 +20,9 @@ defmodule ExValidationWeb.TodoController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    todo = Activities.get_todo!(id)
-    render(conn, "show.json", todo: todo)
-  end
-
-  def update(conn, %{"id" => id, "todo" => todo_params}) do
-    todo = Activities.get_todo!(id)
-
-    with {:ok, %Todo{} = todo} <- Activities.update_todo(todo, todo_params) do
+  def show(conn, %{"id" => todo_id, "user_id" => user_id}) do
+    with {:ok, todo} = Activities.get_user_todo(user_id, todo_id) do
       render(conn, "show.json", todo: todo)
-    end
-  end
-
-  def delete(conn, %{"id" => id}) do
-    todo = Activities.get_todo!(id)
-
-    with {:ok, %Todo{}} <- Activities.delete_todo(todo) do
-      send_resp(conn, :no_content, "")
     end
   end
 end

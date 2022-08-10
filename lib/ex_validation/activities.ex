@@ -37,6 +37,18 @@ defmodule ExValidation.Activities do
   """
   def get_todo!(id), do: Repo.get!(Todo, id)
 
+  def get_user_todo(user_id, todo_id) do
+    user = Repo.get_by(Todo, user_id: user_id, id: todo_id)
+
+    case is_nil(user) do
+      true ->
+        {:error, :not_found}
+
+      false ->
+        {:ok, user}
+    end
+  end
+
   @doc """
   Creates a todo.
 
